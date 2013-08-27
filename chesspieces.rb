@@ -8,13 +8,25 @@ class Chesspiece
 end
 
 class Castle < Chesspiece
-  def initialize( color)
-    @name = "#{color}C"
+  def initialize(color, board)
+
+    super(color, board)
+
+    @name = color == "W" ? "\u2656" : "\u265C"
+
   end
 end
 
 class Knight < Chesspiece
   MOVE_ARRAY = [[-2, -1], [-1, -2], [1, 2], [2, 1], [1, -2], [2, -1] [-2, 1], [-1, 2]]
+
+  def initialize(color, board)
+
+    super(color, board)
+
+    @name = color == "W" ? "\u2658" : "\u265E"
+  end
+
 
   def possible_move(coordinates)
     possible_moves = []
@@ -35,17 +47,49 @@ class Knight < Chesspiece
 end
 
 class Bishop < Chesspiece
+  def initialize(color, board)
+
+    super(color, board)
+
+    @name = color == "W" ? "\u2657" : "\u265D"
+  end
 
 end
 
 class Queen < Chesspiece
+  def initialize(color, board)
+
+    super(color, board)
+
+    @name = color == "W" ? "\u2655" : "\u265B"
+  end
 
 end
 
 class King < Chesspiece
+  def initialize(color, board)
+
+    super(color, board)
+
+    @name = color == "W" ? "\u2654" : "\u265A"
+  end
 
 end
 
 class Pawn < Chesspiece
+  def initialize(color, board)
+
+    super(color, board)
+
+    @name = color == "W" ? "\u2659" : "\u265F"
+  end
+
+end
+
+class NilPiece < Chesspiece
+  def initialize
+    @color = ''
+    @name = ' '
+  end
 
 end

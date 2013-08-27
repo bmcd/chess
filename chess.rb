@@ -1,6 +1,6 @@
-require "chessboard.rb"
-require "chesspieces.rb"
-require "player.rb"
+require "./chessboard.rb"
+require "./chesspieces.rb"
+require "./player.rb"
 
 class Chess
   attr_reader :player1, :player2, :board
@@ -14,7 +14,7 @@ class Chess
   def play
     players = [player1, player2]
 
-    until board.checkmate?(move)
+    until board.checkmate?
       move = players[0].move
 
       board.update(move)
@@ -25,3 +25,5 @@ class Chess
     end_game(players[1])
   end
 end
+
+Chess.new.play

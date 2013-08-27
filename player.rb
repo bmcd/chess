@@ -1,7 +1,7 @@
 class HumanPlayer
   attr_reader :color, :board
 
-  def intialize(color)
+  def initialize(color)
     @color = color
     @board = Chessboard.new
   end
