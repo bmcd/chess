@@ -6,8 +6,10 @@ class Chess
   attr_reader :player1, :player2, :board
 
   def initialize
-    @player1 = HumanPlayer.new('W')
-    @player2 = HumanPlayer.new('B')
+    @player1 = HumanPlayer.new('W', 'Player 1')
+    puts "Player 1, you play the white pieces."
+    @player2 = HumanPlayer.new('B', 'Player 2')
+    puts "Player 2, you play the black pieces."
     @board = Chessboard.new
   end
 
@@ -26,4 +28,4 @@ class Chess
   end
 end
 
-Chess.new.board.print_board
+Chess.new.play

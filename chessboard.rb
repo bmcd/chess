@@ -1,13 +1,15 @@
 class Chessboard
-  attr_accessor :board
+  attr_accessor :board, :killed_piece
 
   def initialize
     create_board
   end
 
+  def [](coords)
+    board[coords]
+  end
+
   def create_board
-    # make starting board hash
-    # use case while iterating to assign pieces
     self.board = Hash.new{ |key, value|  value = NilPiece.new }
 
     8.times do |y|
@@ -48,23 +50,34 @@ class Chessboard
   end
 
   def update(move)
-    #adds the players move to the board
+    self.killed_piece = NilPiece.new
+    from, to = move
+
+    self.killed_piece = board[to] unless board[to].class == "NilPiece"
+    board[to] = board[from]
+    board[from] = NilPiece.new
   end
 
   def undo_move(move)
     #undoes move (hypothetical checking purposes)
+    to, from = move
+
+    board[to] = board[from]
+    board[from] = killed_piece
   end
 
-  def check?(move=nil)
+  def in_check?(move=nil)
     update(move) if move
 
      #checks for check
 
     undo_move(move) if move
+    false
   end
 
   def checkmate?
     #goes through all possible moves and uses check
+    false
   end
 
   def print_board
@@ -92,8 +105,7 @@ class Chessboard
 
   def get_piece_moves(coordinates)
     piece = board[coordinates]
-    ['A', '1']
-
+    piece.possible_moves(coordinates)
   end
 
   def get_piece(coordinates)

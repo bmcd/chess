@@ -1,42 +1,70 @@
 class HumanPlayer
-  attr_reader :color, :board
+  attr_reader :color, :board, :name
 
-  def initialize(color)
+  def initialize(color, name)
     @color = color
     @board = Chessboard.new
+    @name = name
   end
 
   def move
     board.print_board
     #notify player if they are in check
-    board.check?
+    puts "#{self.name}, you are in check!" if board.in_check?
     get_move #returns this value
   end
 
   def get_move
-    #gets and returns the players move
-    #  gets the move
-    #  translate the user input to array coords
-    #  make sure the move is valid
-    #  make sure the move is not check
-    #  return the move interpreted to array coords, loop if error
+    # begin
+      puts "#{self.name}, what is your move?(e.g. D2 D3)"
+      input = gets.chomp.upcase
+      move = translate_input(input)
+      validate_move(move)
+    # rescue => error
+      # p error
+      # puts "Invalid move, try again"
+      # retry
+    # end
+    update_board(move)
+    move
   end
 
   def validate_move(move)
     move_valid?(move)
-    move_check?(move)
+    move_in_check?(move)
   end
 
   def translate_input(move)
-    #raise if input is nonsense or out of range
+    commands = move.gsub(" ", '').split('')
+    raise if commands.length != 4
+    from_x, from_y, to_x, to_y = commands
+
+    from_x = letter_to_num(from_x)
+    to_x = letter_to_num(to_x)
+    from_y = from_y.to_i - 1
+    to_y = to_y.to_i - 1
+
+    output_move = [[from_x, from_y], [to_x, to_y]]
+
+    raise unless [] == output_move.flatten - (0..7).to_a
+
+    output_move
+  end
+
+  def letter_to_num(letter)
+    ("A".."H").to_a.index(letter)
   end
 
   def move_valid?(move)
-    # raise if space is occupied or not in
+    raise unless board[from].color == self.color
+    from, to = move
+    valid_moves = board[from].possible_moves(from)
+    raise unless valid_moves.include?(to)
+    true
   end
 
-  def move_check?(move)
-    #raise if board.check?(move)
+  def move_in_check?(move)
+    # raise unless board.in_check?(move)
   end
 
   def update_board(move)

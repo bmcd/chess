@@ -18,7 +18,7 @@ class Castle < Chesspiece
 end
 
 class Knight < Chesspiece
-  MOVE_ARRAY = [[-2, -1], [-1, -2], [1, 2], [2, 1], [1, -2], [2, -1] [-2, 1], [-1, 2]]
+  MOVE_ARRAY = [[-2, -1], [-1, -2], [1, 2], [2, 1], [1, -2], [2, -1], [-2, 1], [-1, 2]]
 
   def initialize(color, board)
 
@@ -28,10 +28,11 @@ class Knight < Chesspiece
   end
 
 
-  def possible_move(coordinates)
+  def possible_moves(coordinates)
     possible_moves = []
 
     MOVE_ARRAY.each do |dx, dy|
+      puts "Coordinates: #{coordinates}"
       new_x = coordinates[0] + dx
       new_y = coordinates[1] + dy
 
