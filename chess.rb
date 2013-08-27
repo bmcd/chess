@@ -18,7 +18,7 @@ class Chess
   def play
     players = [player1, player2]
 
-    until board.checkmate?
+    until board.checkmate?(players[0].color)
       move = players[0].move
 
       board.update(move)

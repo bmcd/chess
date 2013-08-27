@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Chessboard
   attr_accessor :board, :killed_piece
 
@@ -59,23 +61,33 @@ class Chessboard
   end
 
   def undo_move(move)
-    #undoes move (hypothetical checking purposes)
+    #undoes moverequire "chesspieces"
+     #(hypothetical checking purposes)
     to, from = move
 
     board[to] = board[from]
     board[from] = killed_piece
   end
 
-  def in_check?(move=nil)
+  def in_check?(color, move=nil)
     update(move) if move
 
-     #checks for check
+    opp_color = (['B', 'W'] - [color]).to_s
+    king = color == "W" ? "♔" : "♚"
+    check = false
+
+    king_loc = board.select { |location, piece| piece.name == king}.keys[0]
+
+    board.each do |location, piece|
+      next unless piece.color == opp_color
+      check = true if piece.possible_moves(location).include?(king_loc)
+    end
 
     undo_move(move) if move
-    false
+    check
   end
 
-  def checkmate?
+  def checkmate?(color)
     #goes through all possible moves and uses check
     false
   end
