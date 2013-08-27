@@ -26,4 +26,4 @@ class Chess
   end
 end
 
-Chess.new.play
+Chess.new.board.print_board

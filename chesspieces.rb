@@ -1,5 +1,5 @@
 class Chesspiece
-  attr_accessor :color, :board
+  attr_accessor :color, :board, :name
 
   def initialize(color, board)
     @color = color

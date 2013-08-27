@@ -21,9 +21,13 @@ class Chessboard
           board[[x, y]] = Pawn.new("B", self)
         end
       when 0
-        board[[x, y]] = make_piece(x, "W")
+        8.times do |x|
+          board[[x, y]] = make_piece(x, "W")
+        end
       when 7
-        board[[x, y]] = make_piece(x, "W")
+        8.times do |x|
+          board[[x, y]] = make_piece(x, "B")
+        end
       end
     end
   end
@@ -65,6 +69,25 @@ class Chessboard
 
   def print_board
     #prints board
+    header = ("A".."H").map(&:to_s).map { |char| char.ljust(2) }
+    y_axis = ("1".."8").map { |char| char.ljust(2) }
+
+    puts "   #{header.join}"
+
+    7.downto(0) do |y|
+
+      row = ["#{y_axis[y]}|"]
+      8.times do |x|
+        row << board[[x,y]].name
+        row << "|"
+      end
+
+      row << "#{y_axis[y]}"
+
+      puts row.join
+    end
+
+    puts "   #{header.join}"
   end
 
   def get_piece_moves(coordinates)
