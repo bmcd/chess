@@ -63,7 +63,6 @@ class Knight < Chesspiece
     possible_moves = []
 
     MOVE_ARRAY.each do |dx, dy|
-      puts "Coordinates: #{coordinates}"
       new_x = coordinates[0] + dx
       new_y = coordinates[1] + dy
 

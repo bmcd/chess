@@ -72,16 +72,20 @@ class Chessboard
   def in_check?(color, move=nil)
     update(move) if move
 
-    opp_color = (['B', 'W'] - [color]).to_s
+    opp_color = (['B', 'W'] - [color])[0]
+    # puts "opposing color = #{opp_color}"
     king = color == "W" ? "♔" : "♚"
     check = false
+    # p king
 
     king_loc = board.select { |location, piece| piece.name == king}.keys[0]
-
+    # puts "king loc is #{king_loc}"
     board.each do |location, piece|
       next unless piece.color == opp_color
       check = true if piece.possible_moves(location).include?(king_loc)
+      # puts "check = #{check} after #{piece.name}"
     end
+
 
     undo_move(move) if move
     check

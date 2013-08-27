@@ -10,7 +10,7 @@ class HumanPlayer
   def move
     board.print_board
     #notify player if they are in check
-    puts "#{self.name}, you are in check!" if board.in_check?
+    puts "#{self.name}, you are in check!" if board.in_check?(self.color)
     get_move #returns this value
   end
 
@@ -19,6 +19,7 @@ class HumanPlayer
       puts "#{self.name}, what is your move?(e.g. D2 D3)"
       input = gets.chomp.upcase
       move = translate_input(input)
+      puts "move == #{move}"
       validate_move(move)
     rescue => error
       puts "Invalid move, try again"
@@ -30,7 +31,9 @@ class HumanPlayer
 
   def validate_move(move)
     move_valid?(move)
+    puts "move is valid"
     move_in_check?(move)
+    puts "move is not in check"
   end
 
   def translate_input(move)
@@ -63,7 +66,7 @@ class HumanPlayer
   end
 
   def move_in_check?(move)
-    raise unless board.in_check?(self.color, move)
+    raise if board.in_check?(self.color, move)
   end
 
   def update_board(move)
