@@ -1,10 +1,14 @@
+require "chessboard.rb"
+require "chesspieces.rb"
+require "player.rb"
+
 class Chess
   attr_reader :player1, :player2, :board
 
   def initialize
     @player1 = HumanPlayer.new('W')
     @player2 = HumanPlayer.new('B')
-    @board = Board.new
+    @board = Chessboard.new
   end
 
   def play
