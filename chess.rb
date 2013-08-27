@@ -30,7 +30,7 @@ class Chess
   end
 
   def end_game(player)
-    puts "#{player} wins!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    puts "#{player.name} wins!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   end
 end
 
