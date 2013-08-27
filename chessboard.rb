@@ -92,8 +92,16 @@ class Chessboard
   end
 
   def checkmate?(color)
+    return false unless in_check?(color)
+    checkmate = true
+    board.dup.each do |location, piece|
+      next unless piece.color == color
+      piece.possible_moves(location).each do |move_to|
+        checkmate = false unless in_check?(color, [location,move_to])
+      end
+    end
     #goes through all possible moves and uses check
-    false
+    checkmate
   end
 
   def print_board

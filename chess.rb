@@ -28,6 +28,10 @@ class Chess
     end
     end_game(players[1])
   end
+
+  def end_game(player)
+    puts "#{player} wins!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  end
 end
 
 Chess.new.play
