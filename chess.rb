@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "./chessboard.rb"
 require "./chesspieces.rb"
 require "./player.rb"

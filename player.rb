@@ -56,8 +56,8 @@ class HumanPlayer
   end
 
   def move_valid?(move)
-    raise unless board[from].color == self.color
     from, to = move
+    raise unless board[from].color == self.color
     valid_moves = board[from].possible_moves(from)
     raise unless valid_moves.include?(to)
     true

@@ -34,8 +34,8 @@ class Chessboard
     end
   end
 
-  def make_piece(col, color)
-    case col
+  def make_piece(column, color)
+    case column
     when 0, 7
       return Castle.new(color, self)
     when 1, 6

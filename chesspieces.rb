@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Chesspiece
   attr_accessor :color, :board, :name
 
@@ -12,7 +14,7 @@ class Castle < Chesspiece
 
     super(color, board)
 
-    @name = color == "W" ? "\u2656" : "\u265C"
+    @name = color == "W" ? "♖" : "♜"
 
   end
 end
@@ -24,7 +26,7 @@ class Knight < Chesspiece
 
     super(color, board)
 
-    @name = color == "W" ? "\u2658" : "\u265E"
+    @name = color == "W" ? "♘" : "♞"
   end
 
 
@@ -52,7 +54,7 @@ class Bishop < Chesspiece
 
     super(color, board)
 
-    @name = color == "W" ? "\u2657" : "\u265D"
+    @name = color == "W" ? "♗" : "♝"
   end
 
 end
@@ -62,7 +64,7 @@ class Queen < Chesspiece
 
     super(color, board)
 
-    @name = color == "W" ? "\u2655" : "\u265B"
+    @name = color == "W" ? "♕" : "♛"
   end
 
 end
@@ -72,7 +74,7 @@ class King < Chesspiece
 
     super(color, board)
 
-    @name = color == "W" ? "\u2654" : "\u265A"
+    @name = color == "W" ? "♔" : "♚"
   end
 
 end
@@ -82,7 +84,7 @@ class Pawn < Chesspiece
 
     super(color, board)
 
-    @name = color == "W" ? "\u2659" : "\u265F"
+    @name = color == "W" ? "♙" : "♟"
   end
 
 end
