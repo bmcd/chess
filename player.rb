@@ -15,16 +15,15 @@ class HumanPlayer
   end
 
   def get_move
-    # begin
+    begin
       puts "#{self.name}, what is your move?(e.g. D2 D3)"
       input = gets.chomp.upcase
       move = translate_input(input)
       validate_move(move)
-    # rescue => error
-      # p error
-      # puts "Invalid move, try again"
-      # retry
-    # end
+    rescue => error
+      puts "Invalid move, try again"
+      retry
+    end
     update_board(move)
     move
   end
