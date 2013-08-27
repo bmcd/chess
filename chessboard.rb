@@ -18,11 +18,19 @@ class Chessboard
     #undoes move (hypothetical checking purposes)
   end
 
-  def check?
-    #checks for check
+  def check?(move=nil)
+    update(move) if move
+
+     #checks for check
+
+    undo_move(move) if move
   end
 
   def checkmate?
     #goes through all possible moves and uses check
+  end
+
+  def print_board
+    #prints board
   end
 end

@@ -15,7 +15,7 @@ class Chess
     players = [player1, player2]
 
     until board.checkmate?(move)
-      move = players[0].get_move
+      move = players[0].move
 
       board.update(move)
       players[1].update_board(move)
