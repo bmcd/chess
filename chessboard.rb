@@ -33,4 +33,14 @@ class Chessboard
   def print_board
     #prints board
   end
+
+  def get_piece_moves(coordinates)
+    piece = board[coordinates]
+    ['A', '1']
+
+  end
+
+  def get_piece(coordinates)
+    board[coordinates]
+  end
 end
