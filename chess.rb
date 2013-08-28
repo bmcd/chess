@@ -12,7 +12,6 @@ require "./chesspieces.rb"
 require "./player.rb"
 require "colorize"
 require "yaml"
-require "debugger"
 
 class Chess
   attr_reader :board, :players

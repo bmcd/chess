@@ -64,7 +64,7 @@ class HumanPlayer
   end
 
   def move_in_check?(move)
-    raise if board.in_check?(self.color, move)
+    raise if board.test_for_check(self.color, move)
   end
 
   def update_board(move)

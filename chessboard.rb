@@ -11,58 +11,37 @@ class Chessboard
     board[coords]
   end
 
-  # def [](x,y)
-  #   board[x,y]
-  # end
-  #
-  # board[x,y]
-
   def create_board
-    self.board = Hash.new#{ |key, value|  value = NilPiece.new }
+    self.board = Hash.new
 
     8.times do |y|
       case y
       when 1
-        8.times do |x|
-          board[[x, y]] = Pawn.new("W", self)
-        end
+        8.times { |x| board[[x, y]] = Pawn.new("W", self) }
       when 6
-        8.times do |x|
-          board[[x, y]] = Pawn.new("B", self)
-        end
+        8.times { |x| board[[x, y]] = Pawn.new("B", self) }
       when 0
-        8.times do |x|
-          board[[x, y]] = make_piece(x, "W")
-        end
+        8.times { |x| board[[x, y]] = make_piece(x, "W") }
       when 7
-        8.times do |x|
-          board[[x, y]] = make_piece(x, "B")
-        end
+        8.times { |x| board[[x, y]] = make_piece(x, "B") }
       else
-        8.times do |x|
-          board[[x, y]] = NilPiece.new
-        end
+        8.times { |x| board[[x, y]] = NilPiece.new }
       end
-
     end
   end
 
   def make_piece(column, color)
     case column
-    when 0, 7
-      return Castle.new(color, self)
-    when 1, 6
-      return Knight.new(color, self)
-    when 2, 5
-      return Bishop.new(color, self)
-    when 3
-      return Queen.new(color, self)
-    when 4
-      return King.new(color, self)
+    when 0, 7 then return Castle.new(color, self)
+    when 1, 6 then return Knight.new(color, self)
+    when 2, 5 then return Bishop.new(color, self)
+    when 3 then return Queen.new(color, self)
+    when 4 then return King.new(color, self)
     end
   end
 
   def update(move)
+    # Saves the killed piece for undoing later
     self.killed_piece = NilPiece.new
     from, to = move
 
@@ -72,34 +51,31 @@ class Chessboard
   end
 
   def undo_move(move)
-    #undoes moverequire "chesspieces"
-     #(hypothetical checking purposes)
+    # for hypothetical checking purposes
     to, from = move
-
     board[to] = board[from]
     board[from] = killed_piece
   end
 
-  def in_check?(color, move=nil)
-    update(move) if move
-
-    opp_color = (['B', 'W'] - [color])[0]
-    # puts "opposing color = #{opp_color}"
-    king = color == "W" ? "♔" : "♚"
+  def in_check?(color)
     check = false
-    # p king
+    opp_color = (['B', 'W'] - [color])[0]
 
+    king = color == "W" ? "♔" : "♚"
     king_loc = board.select { |location, piece| piece.name == king}.keys[0]
-    # puts "king loc is #{king_loc}"
+
     board.each do |location, piece|
       next unless piece.color == opp_color
       check = true if piece.possible_moves(location).include?(king_loc)
-      # puts "check = #{check} after #{piece.name}"
     end
 
-
-    undo_move(move) if move
     check
+  end
+
+  def test_for_check(color, move)
+    update(move)
+    in_check?(color)
+    undo_move(move)
   end
 
   def checkmate?(color)
@@ -108,7 +84,7 @@ class Chessboard
     board.dup.each do |location, piece|
       next unless piece.color == color
       piece.possible_moves(location).each do |move_to|
-        checkmate = false unless in_check?(color, [location,move_to])
+        checkmate = false unless test_for_check(color, [location,move_to])
       end
     end
     #goes through all possible moves and uses check
