@@ -11,8 +11,14 @@ class Chessboard
     board[coords]
   end
 
+  # def [](x,y)
+  #   board[x,y]
+  # end
+  #
+  # board[x,y]
+
   def create_board
-    self.board = Hash.new{ |key, value|  value = NilPiece.new }
+    self.board = Hash.new#{ |key, value|  value = NilPiece.new }
 
     8.times do |y|
       case y

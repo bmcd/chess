@@ -20,7 +20,7 @@ class Chesspiece
       until finished
         current[0] += dx
         current[1] += dy
-        if [] != current - (0..7).to_a
+        if [] != current - (0..7).to_a #.empty?
           finished = true
         elsif board[current].color == self.color
           finished = true
@@ -136,6 +136,7 @@ class Pawn < Chesspiece
     end
   end
 
+  # long
   def pawn_block_check(coordinates, dy, starting_row, opp_color)
     moves = []
     return moves if [0, 7].include?(coordinates[1])
