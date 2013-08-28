@@ -1,10 +1,11 @@
 # encoding: utf-8
 
 class Chessboard
-  attr_accessor :board, :killed_piece
+  attr_accessor :board, :move_history
 
   def initialize
     create_board
+    @move_history = []
   end
 
   def [](coords)
@@ -41,20 +42,19 @@ class Chessboard
   end
 
   def update(move)
-    # Saves the killed piece for undoing later
-    self.killed_piece = NilPiece.new
     from, to = move
+    move_history << [from, to, board[from], board[to]]
 
-    self.killed_piece = board[to] unless board[to].class == "NilPiece"
     board[to] = board[from]
     board[from] = NilPiece.new
   end
 
   def undo_move(move)
     # for hypothetical checking purposes
-    to, from = move
-    board[to] = board[from]
-    board[from] = killed_piece
+    last_turn = move_history.pop
+    from, to = last_turn[0], last_turn[1]
+    board[from] = last_turn[2]
+    board[to] = last_turn[3]
   end
 
   def in_check?(color)

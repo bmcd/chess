@@ -8,6 +8,7 @@ class HumanPlayer
   end
 
   def move
+    system('clear')
     board.print_board
     if board.in_check?(self.color)
       puts "#{self.name}, you are in check!".center(40)
