@@ -23,6 +23,8 @@ class HumanPlayer
       input = $stdin.gets.chomp.upcase
 
       return input if input == 'S'
+      # return input if input == 'CL'
+      # return input if input == 'CR'
 
       move = translate_input(input)
       validate_move(move)

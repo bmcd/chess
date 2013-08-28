@@ -98,6 +98,8 @@ class Chessboard
     letters = ("A".."H").map(&:to_s).map { |char| char }.join
     numbers = ("1".."8").map { |char| char }
 
+    black, white = get_dead_pieces
+
     puts " #{letters}".center(40)
 
     7.downto(0) do |y|
@@ -106,15 +108,36 @@ class Chessboard
 
       8.times do |x|
         piece = board[[x,y]].name
-        row << ((x + y).even? ? piece : piece.on_green)
+        row << ((x + y).odd? ? piece : piece.on_green)
       end
 
       row << "#{numbers[y]}"
 
-      puts row.join.center(96)
+      row << ' '
+      row += y > 3 ? black.pop(4).reverse : white.pop(4).reverse
+
+      row = row.join.center(102)
+
+      puts row
     end
 
     puts " #{letters}".center(40)
+  end
+
+  def get_dead_pieces
+    black = Array.new(16, ' ')
+    white = Array.new(16, ' ')
+
+    move_history.each do |turn|
+      if turn[3].color == "B"
+        black << turn[3].name
+      elsif turn[3].color == "W"
+        white << turn[3].name
+      end
+    end
+
+
+    [black, white]
   end
 
   def get_piece_moves(coordinates)
