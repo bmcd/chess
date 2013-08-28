@@ -17,10 +17,12 @@ class Chesspiece
     differentials.each do |dx, dy|
       current = coordinates.dup
       finished = false
+
       until finished
         current[0] += dx
         current[1] += dy
-        if [] != current - (0..7).to_a #.empty?
+
+        if !(current - (0..7).to_a).empty?
           finished = true
         elsif board[current].color == self.color
           finished = true
@@ -52,12 +54,9 @@ class Knight < Chesspiece
   MOVE_ARRAY = [[-2, -1], [-1, -2], [1, 2], [2, 1], [1, -2], [2, -1], [-2, 1], [-1, 2]]
 
   def initialize(color, board)
-
     super(color, board)
-
     @name = color == "W" ? "♘" : "♞"
   end
-
 
   def possible_moves(coordinates)
     possible_moves = []
@@ -86,7 +85,6 @@ class Bishop < Chesspiece
   def possible_moves(coordinates)
     lines(coordinates, DIAGONAL_ARRAY)
   end
-
 end
 
 class Queen < Chesspiece
@@ -99,7 +97,6 @@ class Queen < Chesspiece
     possible_moves = lines(coordinates, HORIZONTAL_ARRAY)
     possible_moves += lines(coordinates, DIAGONAL_ARRAY)
   end
-
 end
 
 class King < Chesspiece
@@ -141,22 +138,34 @@ class Pawn < Chesspiece
     moves = []
     return moves if [0, 7].include?(coordinates[1])
 
-    move = [coordinates[0], coordinates[1] + dy]
-    moves << move if board[move].color == ""
+    moves += regular_move(coordinates, dy)
+    moves += double_move(coordinates, dy, starting_row)
+    moves += attack_moves(coordinates, dy, opp_color)
 
-    [-1,1].each do |dx|
+    moves
+  end
+
+  def regular_move(coordinates, dy)
+    move = [coordinates[0], coordinates[1] + dy]
+    board[move].color == "" ? [move] : []
+  end
+
+  def double_move(coordinates, dy, starting_row)
+    move = [coordinates[0], coordinates[1] + (dy * 2)]
+    if coordinates[1] == starting_row && board[move].color == ""
+      [move]
+    else
+      []
+    end
+  end
+
+  def attack_moves(coordinates, dy, opp_color)
+    [-1,1].each_with_object([]) do |dx, moves|
       new_x, new_y  = coordinates[0] + dx, coordinates[1] + dy
       next unless (0..7).cover?(new_x) && (0..7).cover?(new_y)
       new_move = [new_x, new_y]
       moves << new_move if board[new_move].color == opp_color
     end
-
-    move = [coordinates[0], coordinates[1] + (dy * 2)]
-    if coordinates[1] == starting_row && board[move].color == ""
-      moves << move
-    end
-
-    moves
   end
 end
 
@@ -165,5 +174,4 @@ class NilPiece < Chesspiece
     @color = ''
     @name = ' '
   end
-
 end
