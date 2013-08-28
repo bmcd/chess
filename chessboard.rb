@@ -32,7 +32,12 @@ class Chessboard
         8.times do |x|
           board[[x, y]] = make_piece(x, "B")
         end
+      else
+        8.times do |x|
+          board[[x, y]] = NilPiece.new
+        end
       end
+
     end
   end
 
@@ -106,25 +111,26 @@ class Chessboard
 
   def print_board
     #prints board
-    header = ("A".."H").map(&:to_s).map { |char| char.ljust(2) }
-    y_axis = ("1".."8").map { |char| char.ljust(2) }
+    header = ("A".."H").map(&:to_s).map { |char| char }
+    y_axis = ("1".."8").map { |char| char }
 
-    puts "   #{header.join}"
+    puts " #{header.join}".center(40)
 
     7.downto(0) do |y|
 
-      row = ["#{y_axis[y]}|"]
+      row = ["#{y_axis[y]}"]
       8.times do |x|
-        row << board[[x,y]].name
-        row << "|"
+        piece = board[[x,y]].name
+        row << ((x + y).even? ? piece : piece.on_green)
+        # row << "|"
       end
 
       row << "#{y_axis[y]}"
 
-      puts row.join
+      puts row.join.center(96)
     end
 
-    puts "   #{header.join}"
+    puts " #{header.join}".center(40)
   end
 
   def get_piece_moves(coordinates)

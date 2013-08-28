@@ -10,19 +10,19 @@ class HumanPlayer
   def move
     board.print_board
     #notify player if they are in check
-    puts "#{self.name}, you are in check!" if board.in_check?(self.color)
+    puts "#{self.name}, you are in check!".center(40) if board.in_check?(self.color)
     get_move #returns this value
   end
 
   def get_move
     begin
-      puts "#{self.name}, what is your move?(e.g. D2 D3)"
-      input = gets.chomp.upcase
+      puts "#{self.name}, what is your move?(e.g. 'D2 D3' or 'S' to save)".center(40)
+      input = $stdin.gets.chomp.upcase
+      return input if input == 'S'
       move = translate_input(input)
-      puts "move == #{move}"
       validate_move(move)
     rescue => error
-      puts "Invalid move, try again"
+      puts "Invalid move, try again".center(40)
       retry
     end
     update_board(move)
@@ -31,9 +31,7 @@ class HumanPlayer
 
   def validate_move(move)
     move_valid?(move)
-    puts "move is valid"
     move_in_check?(move)
-    puts "move is not in check"
   end
 
   def translate_input(move)
