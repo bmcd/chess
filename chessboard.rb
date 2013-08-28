@@ -77,14 +77,15 @@ class Chessboard
     check
   end
 
-  def checkmate?(color)
-    return false unless in_check?(color)
+  def checkmate?(color, stalemate_check=false)
+    return false unless stalemate_check || in_check?(color)
     checkmate = true
 
     board.dup.each do |location, piece|
       next unless piece.color == color
       piece.possible_moves(location).each do |move_to|
         checkmate = false unless test_for_check(color, [location,move_to])
+        puts "loc: #{location} move: #{move_to}" if checkmate == false
       end
     end
 

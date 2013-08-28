@@ -21,7 +21,7 @@ class Chess
   end
 
   def play
-    until board.checkmate?(players[0].color)
+    until checkmate? || stalemate?
       move = players[0].move
 
       if move == "S"
@@ -37,8 +37,26 @@ class Chess
 
       players.reverse!
     end
+  end
 
-    end_game(players[1])
+  def checkmate?
+    result = board.checkmate?(players[0].color)
+    if result
+      board.print_board
+      puts "#{player.name} wins!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    end
+
+    result
+  end
+
+  def stalemate?
+    result = board.checkmate?(players[0].color, true)
+    if result
+      board.print_board
+      puts "Stalemate!!!!!!!!!!!!1!!!!!!!!1!!!one!!!"
+    end
+
+    result
   end
 
   def normal_move(move)
@@ -54,11 +72,6 @@ class Chess
 
     board.update(move_one)
     board.update(move_two)
-  end
-
-  def end_game(player)
-    board.print_board
-    puts "#{player.name} wins!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   end
 
   def save_game

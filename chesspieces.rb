@@ -151,6 +151,7 @@ class Pawn < Chesspiece
   end
 
   def double_move(coordinates, dy, starting_row)
+    return [] if regular_move(coordinates, dy).empty?
     move = [coordinates[0], coordinates[1] + (dy * 2)]
     if coordinates[1] == starting_row && board[move].color == ""
       [move]
