@@ -16,15 +16,12 @@ class Chessboard
     self.board = Hash.new
 
     8.times do |y|
+      color = (y < 2 ? "W" : "B")
       case y
-      when 1
-        8.times { |x| board[[x, y]] = Pawn.new("W", self) }
-      when 6
-        8.times { |x| board[[x, y]] = Pawn.new("B", self) }
-      when 0
-        8.times { |x| board[[x, y]] = make_piece(x, "W") }
-      when 7
-        8.times { |x| board[[x, y]] = make_piece(x, "B") }
+      when 1, 6
+        8.times { |x| board[[x, y]] = Pawn.new(color, self) }
+      when 0, 7
+        8.times { |x| board[[x, y]] = make_piece(x, color) }
       else
         8.times { |x| board[[x, y]] = NilPiece.new }
       end
