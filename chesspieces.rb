@@ -112,7 +112,9 @@ class King < Chesspiece
     diffs = HORIZONTAL_ARRAY + DIAGONAL_ARRAY
     moves = []
     diffs.each do |dx, dy|
-      new_move = [coordinates[0] + dx, coordinates[1] + dy]
+      new_x, new_y  = coordinates[0] + dx, coordinates[1] + dy
+      next unless (0..7).cover?(new_x) && (0..7).cover?(new_y)
+      new_move = [new_x, new_y]
       moves << new_move unless board[new_move].color == self.color
     end
     moves
@@ -136,12 +138,15 @@ class Pawn < Chesspiece
 
   def pawn_block_check(coordinates, dy, starting_row, opp_color)
     moves = []
+    return moves if [0, 7].include?(coordinates[1])
 
     move = [coordinates[0], coordinates[1] + dy]
     moves << move if board[move].color == ""
 
     [-1,1].each do |dx|
-      new_move = [coordinates[0] + dx, coordinates[1] + dy]
+      new_x, new_y  = coordinates[0] + dx, coordinates[1] + dy
+      next unless (0..7).cover?(new_x) && (0..7).cover?(new_y)
+      new_move = [new_x, new_y]
       moves << new_move if board[new_move].color == opp_color
     end
 
