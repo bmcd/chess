@@ -74,45 +74,47 @@ class Chessboard
 
   def test_for_check(color, move)
     update(move)
-    in_check?(color)
+    check = in_check?(color)
     undo_move(move)
+
+    check
   end
 
   def checkmate?(color)
     return false unless in_check?(color)
     checkmate = true
+
     board.dup.each do |location, piece|
       next unless piece.color == color
       piece.possible_moves(location).each do |move_to|
         checkmate = false unless test_for_check(color, [location,move_to])
       end
     end
-    #goes through all possible moves and uses check
+
     checkmate
   end
 
   def print_board
-    #prints board
-    header = ("A".."H").map(&:to_s).map { |char| char }
-    y_axis = ("1".."8").map { |char| char }
+    letters = ("A".."H").map(&:to_s).map { |char| char }.join
+    numbers = ("1".."8").map { |char| char }
 
-    puts " #{header.join}".center(40)
+    puts " #{letters}".center(40)
 
     7.downto(0) do |y|
 
-      row = ["#{y_axis[y]}"]
+      row = ["#{numbers[y]}"]
+
       8.times do |x|
         piece = board[[x,y]].name
         row << ((x + y).even? ? piece : piece.on_green)
-        # row << "|"
       end
 
-      row << "#{y_axis[y]}"
+      row << "#{numbers[y]}"
 
       puts row.join.center(96)
     end
 
-    puts " #{header.join}".center(40)
+    puts " #{letters}".center(40)
   end
 
   def get_piece_moves(coordinates)
